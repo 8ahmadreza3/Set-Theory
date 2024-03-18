@@ -91,3 +91,102 @@ char printset(char member[10][50] , int s)
   printf("}\n");
   return ;
 }
+
+char find1(char name[10][5] , char a[50] , const char c[2])
+{
+  char* token ;
+  char set[5];
+  int x , s1=-1;
+  token= strtok(a , c);
+  strcpy(set , token);
+  for(int y=0 ; y<20 ; y++){
+    x=0;
+    for(int g=0 ; name[y][g]!='\0' ;g++){
+      if(name[y][g]==set[g]){
+        x++;
+      }
+      if(x==strlen(a)){
+        s1=y;
+        break;
+      }
+    }
+  }
+  if(s1==-1){
+    printf("Not defined");
+  }
+  return s1;
+}
+
+char find2(char name[10][5] , char a[50] , const char c[2])
+{
+  char* token2;
+  char set[5];
+  int x , s2=-1;
+  token2=strtok( a , c );
+  token2=strtok(NULL , c);
+  strcpy(set , token2);
+  for(int y=0 ; y<20 ; y++){
+    x=0;
+    for(int g=0 ; name[y][g]!='\0' ;g++){
+      if(name[y][g]==set[g]){
+        x++;
+      }
+      if(x==strlen(a)){
+        s2=y;
+        break;
+      }
+    }
+  }
+  if(s2==-1){
+    printf("Not defined");
+  }
+  return s2;
+}
+
+char ejtema(char member[10][50], int s1 , int s2)
+{
+  char res[200];
+  for(int i=0 ; member[s1][i]!=NULL ; i++){
+    res[i]=member[s1][i];
+  }
+  for(int j=(strlen(res)-1); j<200 ; j++){
+    res[j]=member[s2][j];
+  }
+  remove_set(res , 0 );
+  print(res);
+  return ;
+}
+
+char eshterak(char member[10][50], int s1 , int s2)
+{
+  char res[200];
+  for(int i=0 , x=0 ; member[s1][i]!='\0' ; i++){
+    for(int j=0 ; member[s2][j]!='\0' ; j++){
+      if(member[s1][i]==member[s2][j]){
+        res[x]=member[s2][j];
+        ++x;
+      }
+    }
+  }
+  print(res);
+  return ;
+}
+
+char Motammem(char u[200] ,char member[10][50], int s2)
+{
+  char res[200];
+  int flag=0;
+  for(int r=0 , x=0 ; u[r]!=NULL ; r++){
+    for(int b=0 ; member[s2][b]!=NULL ; b++){
+      if(u[r]==member[s2][b]){
+        ++flag;
+      }
+    }
+    if(flag==0){
+      res[x]=member[s2][r];
+      ++x;
+    }
+  }
+  print(res);
+  return ;
+}
