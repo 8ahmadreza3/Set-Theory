@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-char remove_set(char member[10][50] , int s )
+char removeDuplicate(char member[10][50] , int s )
 {
   int n = 50 ;
   for(int i=0 ; i<n+1 ; i++){
@@ -19,7 +19,7 @@ char remove_set(char member[10][50] , int s )
   return ;
 }
 
-char Joda(char a[50],int line ,char member[10][50],char name[10][5])
+char split(char a[50],int line ,char member[10][50],char name[10][5])
 {
   const char x[3] = "={" , z[2]="}"   ;
   char *token , *temp , *emt ;
@@ -48,7 +48,7 @@ char Joda(char a[50],int line ,char member[10][50],char name[10][5])
   return ;
 }
 
-char Universal( char umember[10][50], char u[200])
+char universal( char umember[10][50], char u[200])
 {
   for(int i=0 , x=0 ; i<20 ; i++){
     for(int j=0 ; umember[i][j]!=NULL ; j++){
@@ -92,7 +92,7 @@ char printset(char member[10][50] , int s)
   return ;
 }
 
-char find1(char name[10][5] , char a[50] , const char c[2])
+char findfirst(char name[10][5] , char a[50] , const char c[2])
 {
   char* token ;
   char set[5];
@@ -117,7 +117,7 @@ char find1(char name[10][5] , char a[50] , const char c[2])
   return s1;
 }
 
-char find2(char name[10][5] , char a[50] , const char c[2])
+char findsecond(char name[10][5] , char a[50] , const char c[2])
 {
   char* token2;
   char set[5];
@@ -143,7 +143,7 @@ char find2(char name[10][5] , char a[50] , const char c[2])
   return s2;
 }
 
-char ejtema(char member[10][50], int s1 , int s2)
+char unionset(char member[10][50], int s1 , int s2)
 {
   char res[200];
   for(int i=0 ; member[s1][i]!=NULL ; i++){
@@ -152,12 +152,12 @@ char ejtema(char member[10][50], int s1 , int s2)
   for(int j=(strlen(res)-1); j<200 ; j++){
     res[j]=member[s2][j];
   }
-  remove_set(res , 0 );
+  removeDuplicate(res , 0 );
   print(res);
   return ;
 }
 
-char eshterak(char member[10][50], int s1 , int s2)
+char intersection(char member[10][50], int s1 , int s2)
 {
   char res[200];
   for(int i=0 , x=0 ; member[s1][i]!='\0' ; i++){
@@ -172,7 +172,7 @@ char eshterak(char member[10][50], int s1 , int s2)
   return ;
 }
 
-char Motammem(char u[200] ,char member[10][50], int s2)
+char complement(char u[200] ,char member[10][50], int s2)
 {
   char res[200];
   int flag=0;
@@ -191,7 +191,7 @@ char Motammem(char u[200] ,char member[10][50], int s2)
   return ;
 }
 
-char Tafozol(char member[10][50], int s1 , int s2)
+char diffrence(char member[10][50], int s1 , int s2)
 {
   char res[200];
   int flag=0;
@@ -210,7 +210,7 @@ char Tafozol(char member[10][50], int s1 , int s2)
   return;
 }
 
-char find3(char name[10][5] , char a[50])
+char findthird(char name[10][5] , char a[50])
 {
   int s=-1 , x;
   for(int y=0 ; y<10 ; y++){
@@ -245,59 +245,59 @@ int main()
       }
       if(a=='U'){
         strcpy(member , umember);
-        Universal(umember , u);
+        universal(umember , u);
         print(u);
       }
       else{
         for(int j=0 ; a[j]!='\0' ; j++){
           if(a[j]=='='){
-            Joda(a , line , member , name);
-            remove_set(member , line);
+            split(a , line , member , name);
+            removeDuplicate(member , line);
             ++line;
             ++flag;
           }
           else{
             if(a[j]=='+'){
-              set1=find1(name ,a , "+");
-              set2=find2(name ,a , "+");
+              set1=findfirst(name ,a , "+");
+              set2=findsecond(name ,a , "+");
               if(set1==-1||set2==-1){
                 continue;
               }
-              ejtema(member , set1 , set2);
+              unionset(member , set1 , set2);
               ++flag;
             }
             if(a[j]=='*'){
-              set1=find1(name ,a , "*");
-              set2=find2(name ,a , "*");
+              set1=findfirst(name ,a , "*");
+              set2=findsecond(name ,a , "*");
               if(set1==-1||set2==-1){
                 continue;
               }
-              eshterak(member , set1 , set2);
+              intersection(member , set1 , set2);
               ++flag;
             }
             if(a[0]=='-'){
               strcpy(member , umember);
-                Universal(umember , u);
-                set2=find2(name ,a , "-");
-                if(set2==-1){
+              universal(umember , u);
+              set2=findsecond(name ,a , "-");
+              if(set2==-1){
+                continue;
+              }
+              complement(u , member , set2 );
+              ++flag;
+              }
+              else if(a[j]=='-'){
+                set1=findfirst(name ,a , "-");
+                set2=findsecond(name ,a , "-");
+                if(set1==-1 || set2==-1){
                   continue;
                 }
-                Motammem(u , member , set2 );
-                ++flag;
-                }
-                else if(a[j]=='-'){
-                  set1=find1(name ,a , "-");
-                  set2=find2(name ,a , "-");
-                  if(set1==-1 || set2==-1){
-                    continue;
-                }
-                Tafozol(member , set1 , set2);
+                diffrence(member , set1 , set2);
                 ++flag;
                 }
           }
         }
         if(flag==0){
-          set1=find3(name,a);
+          set1=findthird(name,a);
           if(set1==-1){
             continue;
           }
